@@ -1,39 +1,77 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-// Import screen components directly
 import HomeScreen from '../screens/HomeScreen';
 import ReelsScreen from '../screens/ReelsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
-const Stack = createStackNavigator();
-
-// Define the navigation paths and headers for each screen
 const navigationPaths = {
   Home: {
-    name: 'Home',
     component: HomeScreen,
-    options: {
-      headerTitle: 'Home',
-      headerStyle: { backgroundColor: '#ffffff' },
+    header: {
+      title: 'Home',
+      backgroundColor: '#ffffff',
     },
   },
   Reels: {
-    name: 'Reels',
     component: ReelsScreen,
-    options: {
-      headerTitle: 'Reels',
-      headerStyle: { backgroundColor: '#000000' },
+    header: {
+      title: 'Reels',
+      backgroundColor: '#000000',
     },
   },
   Profile: {
-    name: 'Profile',
     component: ProfileScreen,
-    options: {
-      headerTitle: 'Profile',
-      headerStyle: { backgroundColor: '#f8f8f8' },
+    header: {
+      title: 'Profile',
+      backgroundColor: '#f8f8f8',
     },
   },
 };
 
-export { navigationPaths };
+// Create BottomTab navigator
+const Tab = createBottomTabNavigator();
+
+const BottomTabNavigator = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: { backgroundColor: '#000', borderTopWidth: 0 },
+        tabBarActiveTintColor: '#fff',
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={navigationPaths.Home?.component}
+        options={{
+          tabBarLabel: 'Home',
+          headerShown:false,
+        }}
+      />
+      <Tab.Screen
+        name="Reels"
+        component={navigationPaths.Reels?.component}
+        options={{
+          tabBarLabel: 'Reels',
+          headerTitle: navigationPaths.Reels?.header?.title || 'Reels',
+          headerStyle: {
+            backgroundColor: navigationPaths.Reels?.header?.backgroundColor || '#000000',
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={navigationPaths.Profile?.component}
+        options={{
+          tabBarLabel: 'Profile',
+          headerTitle: navigationPaths.Profile?.header?.title || 'Profile',
+          headerStyle: {
+            backgroundColor: navigationPaths.Profile?.header?.backgroundColor || '#f8f8f8',
+          },
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+export { navigationPaths, BottomTabNavigator };
